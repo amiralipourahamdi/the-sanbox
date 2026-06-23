@@ -39,11 +39,6 @@ Whenever you complete a learning project, you will push it to this repository so
 
 ## Active Roster
 
-_Add your name below following the format of the example._
-
-- **[Your Name]** | [Your Focus, e.g., Next.js, API, System Architecture] | [One sentence about what you are excited to build or learn].
-- **Mohammad Shirvani** | Founder & Tech Lead | Composing scalable infrastructure and building premium, high-performance products.
-
-[it s all i just whant to test my contobution so dont get it really serious im would appritiate to undrestand]
-say hello to this world
-say hello to this world again
+* **[Your Name]** | [Your Focus, e.g., Next.js, API, System Architecture] | [One sentence about what you are excited to build or learn].
+* **Mohammad Shirvani** | Founder & Tech Lead | Composing scalable infrastructure and building premium, high-performance products.
+* **MohammadMahdi Gharagoozlo** | Designer & Future Entrepreneur | Passionate about creating beautiful, user-centered digital experiences and building products that solve real problems. 
