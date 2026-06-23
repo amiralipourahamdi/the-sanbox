@@ -39,6 +39,7 @@ Whenever you complete a learning project, you will push it to this repository so
 
 ## Active Roster
 
-* **[Your Name]** | [Your Focus, e.g., Next.js, API, System Architecture] | [One sentence about what you are excited to build or learn].
-* **Mohammad Shirvani** | Founder & Tech Lead | Composing scalable infrastructure and building premium, high-performance products.
-* **MohammadMahdi Gharagoozlo** | Designer & Future Entrepreneur | Passionate about creating beautiful, user-centered digital experiences and building products that solve real problems. 
+- **[Your Name]** | [Your Focus, e.g., Next.js, API, System Architecture] | [One sentence about what you are excited to build or learn].
+- **Mohammad Shirvani** | Founder & Tech Lead | Composing scalable infrastructure and building premium, high-performance products.
+- **MohammadMahdi Gharagoozlo** | Designer & Future Entrepreneur | Passionate about creating beautiful, user-centered digital experiences and building products that solve real problems.
+- **amirali pourahmadi** |front designer|passinate about lerning rigrads to build products.
