@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>برچسب خروج کالا</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f1e6cf;
+        --paper-2: #e8d9b8;
+        --card: #faf3e2;
+        --ink: #2b2318;
+        --ink-dim: #7a6f5a;
+        --teal: #1f4d47;
+        --teal-dim: #d7e3e0;
+        --stamp: #b8452c;
+        --line: #c9b98d;
+        --ok: #3d7a5c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(1000px 500px at 90% -5%, #ecdcb8 0%, transparent 55%),
+          linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+        color: var(--ink);
+        padding: 32px 16px 60px;
+      }
+      .wrap {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11.5px;
+        letter-spacing: 0.12em;
+        color: var(--ink-dim);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+      }
+      .eyebrow .sep {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: 800;
+        margin: 0 0 26px;
+        letter-spacing: 0.2px;
+      }
+
+      /* ===== TICKET ===== */
+      .ticket {
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.6) inset,
+          0 18px 40px -20px rgba(43, 35, 24, 0.35);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(43, 35, 24, 0.08);
+      }
+
+      /* stub header */
+      .stub {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 22px 26px 20px;
+        position: relative;
+      }
+      .stub .serial {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-dim);
+        letter-spacing: 0.08em;
+      }
+      .stub .serial b {
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 600;
+        display: block;
+        margin-top: 2px;
+      }
+      .stamp {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--stamp);
+        border: 2px solid var(--stamp);
+        border-radius: 6px;
+        padding: 5px 12px;
+        transform: rotate(6deg);
+        letter-spacing: 0.1em;
+        opacity: 0.85;
+        white-space: nowrap;
+      }
+
+      /* perforation divider */
+      .perf {
+        position: relative;
+        height: 0;
+        border-top: 2px dashed var(--line);
+        margin: 0 0;
+      }
+      .perf::before,
+      .perf::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--paper-2);
+        box-shadow: inset 0 0 0 1px rgba(43, 35, 24, 0.06);
+      }
+      .perf::before {
+        left: -13px;
+      }
+      .perf::after {
+        right: -13px;
+      }
+
+      /* body */
+      .body-area {
+        padding: 26px;
+      }
+
+      .field {
+        margin-bottom: 20px;
+      }
+      .field:last-of-type {
+        margin-bottom: 0;
+      }
+      .field label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .field label .num {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        color: #fff;
+        background: var(--teal);
+        width: 17px;
+        height: 17px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .field input,
+      .field select {
+        width: 100%;
+        background: #fffdf7;
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-family: inherit;
+        font-size: 15px;
+        color: var(--ink);
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--teal);
+        box-shadow: 0 0 0 3px rgba(31, 77, 71, 0.12);
+      }
+      .field input::placeholder {
+        color: #b3a685;
+      }
+
+      /* segmented control for دلیل خروج */
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .segmented input {
+        display: none;
+      }
+      .segmented label {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-dim);
+        background: #fffdf7;
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        padding: 11px 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .segmented input:checked + label {
+        background: var(--teal);
+        border-color: var(--teal);
+        color: #fff;
+      }
+
+      .qty-row {
+        display: flex;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .qty-row input {
+        text-align: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+      }
+      .qty-btn {
+        width: 44px;
+        flex-shrink: 0;
+        background: var(--teal-dim);
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        color: var(--teal);
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .qty-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* scan row (barcode auto-fill for نام و نوع کالا) */
+      .scan-row {
+        display: flex;
+        gap: 8px;
+      }
+      .scan-row input {
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .scan-btn {
+        flex-shrink: 0;
+        width: 46px;
+        background: var(--ink);
+        border: none;
+        border-radius: 10px;
+        color: var(--paper);
+        cursor: pointer;
+        font-size: 17px;
+      }
+      .scan-hint {
+        font-size: 11.5px;
+        color: var(--ink-dim);
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .scan-hint .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--ok);
+        flex-shrink: 0;
+      }
+      .scan-hint.idle .dot {
+        background: var(--line);
+      }
+
+      .footer-actions {
+        display: flex;
+        gap: 10px;
+        padding: 0 26px 26px;
+      }
+      button.submit {
+        flex: 1;
+        background: var(--teal);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        letter-spacing: 0.2px;
+      }
+      button.submit:active {
+        transform: scale(0.99);
+      }
+      button.reset {
+        background: transparent;
+        border: 1.5px solid var(--line);
+        color: var(--ink-dim);
+        border-radius: 10px;
+        padding: 14px 18px;
+        font-family: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      /* ===== LOG ===== */
+      .log {
+        margin-top: 34px;
+      }
+      .log h2 {
+        font-size: 13px;
+        color: var(--ink-dim);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        margin: 0 0 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .log h2 .sep {
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      .tag-card {
+        background: var(--card);
+        border: 1px solid rgba(43, 35, 24, 0.08);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        box-shadow: 0 6px 16px -12px rgba(43, 35, 24, 0.3);
+      }
+      .tag-card .idx {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-dim);
+        background: var(--paper-2);
+        border-radius: 6px;
+        padding: 4px 8px;
+        flex-shrink: 0;
+      }
+      .tag-card .info {
+        flex: 1;
+        min-width: 0;
+      }
+      .tag-card .name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .tag-card .meta {
+        font-size: 12px;
+        color: var(--ink-dim);
+        margin-top: 3px;
+      }
+      .tag-card .reason {
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: var(--teal-dim);
+        color: var(--teal);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .tag-card .del {
+        background: transparent;
+        border: none;
+        color: var(--ink-dim);
+        cursor: pointer;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .tag-card .del:hover {
+        color: var(--stamp);
+      }
+
+      .empty-log {
+        text-align: center;
+        color: var(--ink-dim);
+        font-size: 13px;
+        padding: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="eyebrow">دفتر انبار <span class="sep"></span> برچسب خروج</div>
+      <h1>ثبت خروج کالا</h1>
+
+      <div class="ticket">
+        <div class="stub">
+          <div class="serial">
+            شمارهٔ برچسب
+            <b id="serialNo">OUT-0001</b>
+          </div>
+          <div class="stamp">خروج از انبار</div>
+        </div>
+        <div class="perf"></div>
+
+        <div class="body-area">
+          <div class="field">
+            <label><span class="num">۱</span> نام و نوع کالا</label>
+            <div class="scan-row">
+              <input
+                id="fName"
+                type="text"
+                placeholder="اسکن بارکد یا تایپ دستی…"
+              />
+              <button class="scan-btn" id="scanBtn" title="فوکوس روی اسکن">
+                ▤
+              </button>
+            </div>
+            <div class="scan-hint idle" id="scanHint">
+              <span class="dot"></span> در انتظار اسکن بارکد
+            </div>
+          </div>
+
+          <div class="field">
+            <label><span class="num">۲</span> دلیل خروج</label>
+            <div class="segmented" id="reasonGroup">
+              <input
+                type="radio"
+                name="reason"
+                id="r-wash"
+                value="شست‌وشو"
+                checked
+              />
+              <label for="r-wash">شست‌وشو</label>
+              <input
+                type="radio"
+                name="reason"
+                id="r-photo"
+                value="عکس‌برداری"
+              />
+              <label for="r-photo">عکس‌برداری</label>
+              <input type="radio" name="reason" id="r-other" value="سایر" />
+              <label for="r-other">سایر</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><span class="num">۳</span> تعداد کالا</label>
+            <div class="qty-row">
+              <button class="qty-btn" id="qtyMinus" type="button">−</button>
+              <input id="fQty" type="number" min="1" value="1" />
+              <button class="qty-btn" id="qtyPlus" type="button">+</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label><span class="num">۴</span> زمان مورد نیاز</label>
+            <input id="fTime" type="date" />
+          </div>
+        </div>
+
+        <div class="footer-actions">
+          <button class="submit" id="submitBtn">ثبت و چاپ برچسب</button>
+          <button class="reset" id="resetBtn">پاک‌کردن</button>
+        </div>
+      </div>
+
+      <div class="log">
+        <h2>برچسب‌های ثبت‌شده <span class="sep"></span></h2>
+        <div id="logList">
+          <div class="empty-log">هنوز برچسبی ثبت نشده.</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const SHEET_URL =
+        "https://script.google.com/macros/s/AKfycbxU1iTIaR6oOLUMEa2WVsCvh_IBaFRcjavZR2WeimDgr7Jl-p4AECTFzWalG_H95eTxyQ/exec";
+      const fName = document.getElementById("fName");
+      const fQty = document.getElementById("fQty");
+      const fTime = document.getElementById("fTime");
+      const scanHint = document.getElementById("scanHint");
+      const scanBtn = document.getElementById("scanBtn");
+      const serialNoEl = document.getElementById("serialNo");
+      const submitBtn = document.getElementById("submitBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const logList = document.getElementById("logList");
+      const qtyMinus = document.getElementById("qtyMinus");
+      const qtyPlus = document.getElementById("qtyPlus");
+
+      let counter = 1;
+      let entries = [];
+      let scanTimer = null;
+
+      function pad(n) {
+        return String(n).padStart(4, "0");
+      }
+      function updateSerial() {
+        serialNoEl.textContent = "OUT-" + pad(counter);
+      }
+      updateSerial();
+
+      /* بارکد ممکن است JSON یا رشتهٔ جداکننده‌دار (کد|نوع) یا فقط متن ساده باشد */
+      function parseBarcode(raw) {
+        const text = raw.trim();
+        if (!text) return "";
+        try {
+          const obj = JSON.parse(text);
+          const code = obj.code || obj.کد || "";
+          const type = obj.type || obj.نوع || obj.name || "";
+          return [code, type].filter(Boolean).join(" — ");
+        } catch (e) {}
+        for (const sep of ["|", ";", ",", "\t"]) {
+          if (text.includes(sep)) {
+            return text
+              .split(sep)
+              .map((s) => s.trim())
+              .filter(Boolean)
+              .join(" — ");
+          }
+        }
+        return text;
+      }
+
+      function markScanned() {
+        scanHint.classList.remove("idle");
+        scanHint.innerHTML =
+          '<span class="dot"></span> از بارکد پر شد — در صورت نیاز ویرایش کنید';
+      }
+      function markIdle() {
+        scanHint.classList.add("idle");
+        scanHint.innerHTML = '<span class="dot"></span> در انتظار اسکن بارکد';
+      }
+
+      fName.addEventListener("keydown", async (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const id = fName.value.trim();
+          if (!id) return;
+
+          scanHint.innerHTML = '<span class="dot"></span> در حال جستجو...';
+
+          try {
+            const response = await fetch(SHEET_URL, {
+              method: "POST",
+              body: JSON.stringify({ action: "lookup", id: id }),
+            });
+            const result = await response.json();
+
+            if (result.product_name) {
+              fName.value = result.product_name;
+              markScanned();
+            } else {
+              scanHint.innerHTML = '<span class="dot"></span> کالا یافت نشد';
+            }
+          } catch (err) {
+            scanHint.innerHTML = '<span class="dot"></span> خطا در ارتباط';
+          }
+        }
+      });
+      fName.addEventListener("input", () => {
+        clearTimeout(scanTimer);
+        scanTimer = setTimeout(() => {
+          if (
+            fName.value.trim().length >= 6 &&
+            (fName.value.includes("{") || fName.value.includes("|"))
+          ) {
+            fName.value = parseBarcode(fName.value);
+            markScanned();
+          }
+        }, 120);
+      });
+      fName.addEventListener("focus", markIdle);
+      scanBtn.addEventListener("click", () => fName.focus());
+
+      qtyMinus.addEventListener("click", () => {
+        fQty.value = Math.max(1, (parseInt(fQty.value) || 1) - 1);
+      });
+      qtyPlus.addEventListener("click", () => {
+        fQty.value = (parseInt(fQty.value) || 1) + 1;
+      });
+
+      function reasonValue() {
+        return document.querySelector('input[name="reason"]:checked').value;
+      }
+
+      function renderLog() {
+        if (entries.length === 0) {
+          logList.innerHTML =
+            '<div class="empty-log">هنوز برچسبی ثبت نشده.</div>';
+          return;
+        }
+        logList.innerHTML = entries
+          .map(
+            (e, i) => `
+    <div class="tag-card">
+      <div class="idx">${e.serial}</div>
+      <div class="info">
+        <div class="name">${e.name || "—"}</div>
+        <div class="meta">تعداد: ${e.qty} ${e.time ? "· موعد: " + e.time : ""}</div>
+      </div>
+      <div class="reason">${e.reason}</div>
+      <button class="del" data-i="${entries.length - 1 - i}">✕</button>
+    </div>
+  `,
+          )
+          .join("");
+        logList.querySelectorAll(".del").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            entries.splice(Number(btn.dataset.i), 1);
+            renderLog();
+          });
+        });
+      }
+
+      submitBtn.addEventListener("click", async () => {
+        if (!fName.value.trim()) {
+          fName.focus();
+          return;
+        }
+
+        submitBtn.disabled = true;
+        const rawInput = fName.value.trim();
+        let productName = rawInput;
+
+        /* قبل از ذخیره، نام کالا را از سرور (API) می‌گیریم */
+        try {
+          scanHint.innerHTML = '<span class="dot"></span> در حال دریافت نام کالا...';
+          const lookupRes = await fetch(SHEET_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "lookup", id: rawInput }),
+          });
+          const lookupData = await lookupRes.json();
+          if (lookupData.product_name) {
+            productName = lookupData.product_name;
+            fName.value = productName;
+            markScanned();
+          }
+        } catch (err) {
+          /* اگر جستجو ناموفق بود، همان مقداری که کاربر وارد کرده به‌عنوان نام کالا ثبت می‌شود */
+        }
+
+        const entry = {
+          serial: serialNoEl.textContent,
+          name: productName,
+          reason: reasonValue(),
+          qty: fQty.value || 1,
+          time: fTime.value,
+        };
+
+        try {
+          await fetch(SHEET_URL, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({
+              action: "save",
+              barcode: entry.serial,
+              productName: entry.name,
+              reason: entry.reason,
+              quantity: entry.qty,
+              neededDate: entry.time,
+            }),
+          });
+        } catch (err) {
+          alert("خطا در ذخیره‌سازی");
+          submitBtn.disabled = false;
+          return;
+        }
+
+        entries.unshift(entry);
+        counter++;
+        updateSerial();
+        renderLog();
+        resetBtn.click();
+        submitBtn.disabled = false;
+      });
+      resetBtn.addEventListener("click", () => {
+        fName.value = "";
+        fQty.value = 1;
+        fTime.value = "";
+        document.getElementById("r-wash").checked = true;
+        markIdle();
+        fName.focus();
+      });
+
+      fName.focus();
+    </script>
+  </body>
+</html>
